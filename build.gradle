@@ -1,0 +1,46 @@
+buildscript {
+    ext {
+        spotBugsVersion = '1.6.9'
+    }
+    repositories {
+        mavenCentral()
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+    dependencies {
+        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:${spotBugsVersion}")
+    }
+}
+
+group = 'groenbaek'
+version = ""
+
+apply plugin: 'java'
+apply plugin: 'com.github.spotbugs'
+
+sourceCompatibility = 1.8
+
+ext {
+    findbugsAnnotationsVersion = '3.0.1'
+    lombokVersion = '1.18.10'
+    guavaVersion = '28.1-jre'
+    assertJVersion = '3.14.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.projectlombok:lombok:${lombokVersion}")
+    compile("com.google.guava:guava:${guavaVersion}")
+
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    // compile only dependencies 
+    compileOnly("com.google.code.findbugs:annotations:${findbugsAnnotationsVersion}")
+
+
+    // test dependencies
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile("org.assertj:assertj-core:${assertJVersion}")
+}
+
